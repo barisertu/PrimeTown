@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.stream.IntStream;
 
 @Entity
 public class House {
@@ -45,5 +46,13 @@ public class House {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    //https://www.baeldung.com/java-prime-numbers
+    //Checking if Number is Prime
+    public boolean isPrime(int number) {
+        return number > 1
+                && IntStream.rangeClosed(2, (int) Math.sqrt(number))
+                .noneMatch(n -> (number % n == 0));
     }
 }

@@ -29,7 +29,7 @@ public class HouseController {
     //Create house
     @PostMapping("/houses")
     public House createHouse(@Validated @RequestBody House house){
-        if((house.getYearOfConstruction() >= 1800 && house.getYearOfConstruction() <= calendar.getInstance().get(Calendar.YEAR))){
+        if((house.getYearOfConstruction() >= 1800 && house.getYearOfConstruction() <= calendar.getInstance().get(Calendar.YEAR) && house.isPrime(house.getNumber()))){
             return houseRepository.save(house);
         }
             return null;
@@ -55,7 +55,7 @@ public class HouseController {
         house.setYearOfConstruction(houseDetails.getYearOfConstruction());
         house.setNumber(houseDetails.getNumber());
 
-        if((house.getYearOfConstruction() >= 1800 && house.getYearOfConstruction() <= calendar.getInstance().get(Calendar.YEAR))) {
+        if((house.getYearOfConstruction() >= 1800 && house.getYearOfConstruction() <= calendar.getInstance().get(Calendar.YEAR) && house.isPrime(house.getNumber()))) {
             houseRepository.save(house);
             return ResponseEntity.ok().body(house);
         } return null;

@@ -8,14 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
 @RequestMapping("primetown")
 public class HouseController {
 
+    //Service folgt auch in dieser Datei ab
+
     @Autowired
     private HouseRepository houseRepository;
+
+    private Calendar calendar;
 
     //Get all houses
     @GetMapping("/houses")
@@ -24,7 +29,10 @@ public class HouseController {
     //Create house
     @PostMapping("/houses")
     public House createHouse(@Validated @RequestBody House house){
-        return houseRepository.save(house);
+        if((house.getYearOfConstruction() >= 1800 && house.getYearOfConstruction() <= calendar.getInstance().get(Calendar.YEAR))){
+            return houseRepository.save(house);
+        }
+            return null;
     }
 
     //Get house by id
@@ -46,8 +54,11 @@ public class HouseController {
         house.setOwner(houseDetails.getOwner());
         house.setYearOfConstruction(houseDetails.getYearOfConstruction());
         house.setNumber(houseDetails.getNumber());
-        houseRepository.save(house);
-        return ResponseEntity.ok().body(house);
+
+        if((house.getYearOfConstruction() >= 1800 && house.getYearOfConstruction() <= calendar.getInstance().get(Calendar.YEAR))) {
+            houseRepository.save(house);
+            return ResponseEntity.ok().body(house);
+        } return null;
     }
 
 
